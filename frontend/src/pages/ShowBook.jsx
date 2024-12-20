@@ -3,11 +3,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import BackButton from "../components/BackButton";
-import Spinner from "../components/spinner";
+import Spinner from "../components/Spinner";
 
 const ShowBook = () => {
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(false);
+  const [error ,setError] = useState(false)
   const { id } = useParams();
   useEffect(() => {
     setLoading(true);
@@ -24,15 +25,15 @@ const ShowBook = () => {
 
   return (
     <div className="w-full h-screen p-4">
-      <BackButton />
-      <h1 className="text-3xl font-bold my-4">
+      <h1 className="text-3xl font-bold my-8">
         Show Book
       </h1>
+      <BackButton />
       <div>
         {loading ? (
           <Spinner />
         ) : (
-          <div className="flex flex-col border-2 border-sky-400 rounded-xl w-fit p-4">
+          <div className="flex flex-col border-2 border-sky-400 rounded-xl w-full p-4">
             <div className="my-4">
               <span className="text-xl mr-4 text-gray-500">
                 Id

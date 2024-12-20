@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import axios from "axios";
-import Spinner from "../components/spinner";
+import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
+import Errormodal from "../components/Errormodal";
 import {
   AiOutlineEdit,
   AiOutlineDelete,
@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -24,6 +25,8 @@ const Home = () => {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
+        setError(true);
         console.log(err);
       });
   }, []);
@@ -44,13 +47,16 @@ const Home = () => {
           <table className="table-auto w-full border-separate border-spacing-2">
             <thead>
               <tr>
-                <th className="border border-slate-700 rounded-md max-md:hidden ">
+                <th className="border border-slate-700 rounded-md ">
+                  #
+                </th>
+                <th className="border border-slate-700 rounded-md ">
                   Title
                 </th>
-                <th className="border border-slate-700 rounded-md max-md:hidden ">
+                <th className="border border-slate-700 rounded-md ">
                   Author
                 </th>
-                <th className="border border-slate-700 rounded-md max-md:hidden ">
+                <th className="border border-slate-700 rounded-md ">
                   Publish Date
                 </th>
                 <th className="border border-slate-700 rounded-md">
@@ -59,37 +65,44 @@ const Home = () => {
               </tr>
             </thead>
             <tbody>
-              {books.map((book) => {
-                return (
-                  <tr key={book._id}>
-                    <td className="p-2 border border-slate-700 rounded-md max-md:hidden text-center capitalize ">
-                      {book.title}
-                    </td>
-                    <td className="p-2 border border-slate-700 rounded-md max-md:hidden text-center capitalize ">
-                      {book.author}
-                    </td>
-                    <td className="p-2 border border-slate-700 rounded-md max-md:hidden text-center ">
-                      {book.publishYear}
-                    </td>
-                    <td className="p-4 border text-xl border-slate-700 rounded-md flex justify-center gap-3 items-center ">
-                      <Link to={`/books/show/${book._id}`}>
-                        <BsInfoCircle className="text-green-500"/>
-                      </Link>
-                      <Link
-                        to={`/books/edit/${book._id}`}
-                      >
-                        <AiOutlineEdit  className="text-yellow-600"/>
-                      </Link>
+              {!error ? (
+                books.map((book, index) => {
+                  return (
+                    <tr key={book._id}>
+                      <td  className="p-2 border border-slate-700 rounded-md text-center capitalize ">{index + 1}</td>
+                      <td className="p-2 border border-slate-700 rounded-md text-center capitalize ">
+                        {book.title}
+                      </td>
+                      <td className="p-2 border border-slate-700 rounded-md text-center capitalize ">
+                        {book.author}
+                      </td>
+                      <td className="p-2 border border-slate-700 rounded-md text-center ">
+                        {book.publishYear}
+                      </td>
+                      <td className="p-4 border text-xl border-slate-700 rounded-md flex justify-center gap-3 items-center ">
+                        <Link
+                          to={`/books/show/${book._id}`}
+                        >
+                          <BsInfoCircle className="text-green-500" />
+                        </Link>
+                        <Link
+                          to={`/books/edit/${book._id}`}
+                        >
+                          <AiOutlineEdit className="text-yellow-600" />
+                        </Link>
 
-                      <Link
-                        to={`/books/delete/${book._id}`}
-                      >
-                        <AiOutlineDelete className="text-red-600" />
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
+                        <Link
+                          to={`/books/delete/${book._id}`}
+                        >
+                          <AiOutlineDelete className="text-red-600" />
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <Errormodal />
+              )}
             </tbody>
           </table>
         </>
