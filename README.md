@@ -1,4 +1,3 @@
-can you generate a readme with a github link
 
 # MERN Stack Book Management Application
 
