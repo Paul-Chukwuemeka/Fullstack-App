@@ -14,12 +14,11 @@ const connectionString =
 
 server.use("/books", router);
 
-
 mongoose.connect(connectionString).then(() => {
   try {
     server.listen(port, () => {
       console.log("server is running");
-    });
+  });
   } catch (error) {
     console.log(error);
   }

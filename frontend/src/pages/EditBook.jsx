@@ -5,11 +5,13 @@ import React, {
 import Spinner from "../components/Spinner";
 import axios from "axios";
 import BackButton from "../components/BackButton";
+import Errormodal from "../components/Errormodal";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const EditBook = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState(false);
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publishYear, setPublishYear] =
@@ -29,7 +31,7 @@ const EditBook = () => {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+        setError(true);
       });
   }, []);
 
@@ -41,7 +43,10 @@ const EditBook = () => {
       publishYear,
     };
     axios
-      .put(`http://localhost:4000/books/${id}`, data)
+      .put(
+        `http://localhost:4000/books/${id}`,
+        data
+      )
       .then(() => {
         setLoading(false);
         console.log("hey");
@@ -49,7 +54,7 @@ const EditBook = () => {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+        setError(true);
       });
   };
 
@@ -59,11 +64,11 @@ const EditBook = () => {
       <BackButton />
       {loading ? (
         <Spinner />
-      ) : (
+      ) : !error ? (
         <form
           onSubmit={(e) => e.preventDefault()}
           className="flex flex-col items-center gap-2
-        border-2 border-sky-400 rounded-xl text-lg w-[500px] mx-auto p-4"
+border-2 border-sky-400 rounded-xl text-lg w-[500px] mx-auto p-4"
         >
           <label
             htmlFor="title"
@@ -121,6 +126,8 @@ const EditBook = () => {
             Submit
           </button>
         </form>
+      ) : (
+        <Errormodal />
       )}
     </div>
   );

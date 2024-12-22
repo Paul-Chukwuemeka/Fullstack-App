@@ -26,12 +26,10 @@ const CreateBook = () => {
       .post("http://localhost:4000/books", data)
       .then(() => {
         setLoading(false);
-        console.log("hey");
         navigate("/");
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
       });
   };
 
