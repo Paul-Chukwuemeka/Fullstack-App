@@ -1,16 +1,16 @@
-import React from "react";
 import {
-    AiOutlineEdit,
-    AiOutlineDelete,
-  } from "react-icons/ai";
-  import { BsInfoCircle } from "react-icons/bs";
-  import { Link } from "react-router-dom";
-  import Errormodal from "../components/Errormodal";
+  AiOutlineEdit,
+  AiOutlineDelete,
+} from "react-icons/ai";
+import { BsInfoCircle } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import Errormodal from "../components/Errormodal";
+import PropTypes from "prop-types";
 
+const Table = ({ error, books }) => {
 
-const Table = ({error,books}) => {
   return (
-    <table className="table-auto w-full border-separate border-spacing-2">
+    <table className="table-auto p-2 font-bold mt-2 rounded-md w-full border-separate border-spacing-2">
       <thead>
         <tr>
           <th className="border border-slate-700 rounded-md ">
@@ -51,18 +51,18 @@ const Table = ({error,books}) => {
                   <Link
                     to={`/books/show/${book._id}`}
                   >
-                    <BsInfoCircle className="text-green-500" />
+                    <BsInfoCircle className="text-green-500 hover:text-sky-500" />
                   </Link>
                   <Link
                     to={`/books/edit/${book._id}`}
                   >
-                    <AiOutlineEdit className="text-yellow-600" />
+                    <AiOutlineEdit className="text-yellow-600 hover:text-sky-500" />
                   </Link>
 
                   <Link
                     to={`/books/delete/${book._id}`}
                   >
-                    <AiOutlineDelete className="text-red-600" />
+                    <AiOutlineDelete className="text-red-600 hover:text-sky-500" />
                   </Link>
                 </td>
               </tr>
@@ -77,3 +77,8 @@ const Table = ({error,books}) => {
 };
 
 export default Table;
+Table.propTypes = {
+  error: PropTypes.bool.isRequired,
+  books: PropTypes.array.isRequired,
+};
+

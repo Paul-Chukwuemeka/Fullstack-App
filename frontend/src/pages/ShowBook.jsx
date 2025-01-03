@@ -1,9 +1,9 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
+import Errormodal from "../components/Errormodal";
 
 const ShowBook = () => {
   const [book, setBook] = useState({});
@@ -19,12 +19,14 @@ const ShowBook = () => {
         setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
+        setError(true);
       });
   }, []);
 
   return (
-    <div className="w-full h-screen p-4">
+    <div className="w-full h-screen p-10">
       <h1 className="text-3xl font-bold my-8">
         Show Book
       </h1>
@@ -33,32 +35,36 @@ const ShowBook = () => {
         {loading ? (
           <Spinner />
         ) : (
-          <div className="flex flex-col border-2 border-sky-400 rounded-xl w-full p-4">
-            <div className="my-4">
-              <span className="text-xl mr-4 text-gray-500">
-                Id
-              </span>
-              <span>{book._id}</span>
+          !error ? (
+            <div className="flex flex-col border-2 border-sky-400 rounded-xl w-full p-4">
+              <div className="my-4">
+                <span className="text-xl mr-4 text-gray-500">
+                  Id
+                </span>
+                <span>{book._id}</span>
+              </div>
+              <div className="my-4">
+                <span className="text-xl mr-4 text-gray-500">
+                  Title
+                </span>
+                <span>{book.title}</span>
+              </div>
+              <div className="my-4">
+                <span className="text-xl mr-4 text-gray-500">
+                  Author
+                </span>
+                <span className="capitalize">{book.author}</span>
+              </div>
+              <div className="my-4">
+                <span className="text-xl mr-4 text-gray-500">
+                  Publish Year
+                </span>
+                <span>{book.publishYear}</span>
+              </div>
             </div>
-            <div className="my-4">
-              <span className="text-xl mr-4 text-gray-500">
-                Title
-              </span>
-              <span>{book.title}</span>
-            </div>
-            <div className="my-4">
-              <span className="text-xl mr-4 text-gray-500">
-                Author
-              </span>
-              <span className="capitalize">{book.author}</span>
-            </div>
-            <div className="my-4">
-              <span className="text-xl mr-4 text-gray-500">
-                Publish Year
-              </span>
-              <span>{book.publishYear}</span>
-            </div>
-          </div>
+          ) : (
+            <Errormodal />
+          )
         )}
       </div>
     </div>

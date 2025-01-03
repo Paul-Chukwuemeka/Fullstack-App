@@ -1,7 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-} from "react";
+import { useState } from "react";
 import Spinner from "../components/Spinner";
 import axios from "axios";
 import BackButton from "../components/BackButton";
@@ -30,12 +27,15 @@ const CreateBook = () => {
       })
       .catch((err) => {
         setLoading(false);
+        console.log(err);
       });
   };
 
   return (
     <div className=" p-4">
-      <h1 className="my-8 text-3xl font-bold">Create Book</h1>
+      <h1 className="my-8 text-3xl font-bold">
+        Create Book
+      </h1>
       <BackButton />
       {loading ? (
         <Spinner />
